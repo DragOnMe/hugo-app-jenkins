@@ -15,6 +15,7 @@ podTemplate(label: 'pod-hugo-app', containers: [
         def DOCKER_HUB_ACCOUNT = 'drlee001'
         def DOCKER_IMAGE_NAME = 'hugo-app-jenkins'
         def K8S_DEPLOYMENT_NAME = 'hugo-app-rolling-update'
+        def POD_NAMESPACE = 'ns-jenkins'
 
         stage('Clone Hugo App Repository') {
             checkout scm
@@ -42,7 +43,7 @@ podTemplate(label: 'pod-hugo-app', containers: [
 
             container('kubectl') {
                 stage('Deploy New Build To Kubernetes') {
-                    sh ("kubectl set image deployment/${K8S_DEPLOYMENT_NAME} ${K8S_DEPLOYMENT_NAME}=${DOCKER_HUB_ACCOUNT}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}")
+                    sh ("kubectl set image -n ${POD_NAMESPACE} deployment/${K8S_DEPLOYMENT_NAME} ${K8S_DEPLOYMENT_NAME}=${DOCKER_HUB_ACCOUNT}/${DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}")
                 }
             }
 
