@@ -23,7 +23,7 @@ podTemplate(label: 'pod-hugo-app', containers: [
             container('hugo') {
                 stage('Build Hugo Site') {
                     sh ("cat /etc/issue")
-                    sh ("hugo --ignoreCache")
+                    sh ("hugo --uglyURLs")
                 }
             }
     
